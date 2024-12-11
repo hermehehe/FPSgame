@@ -70,7 +70,7 @@ public class Game {
 
 	//border, player, zombie, and obstacle variables
 	Border border = new Border();
-	Player player = new Player(400-17,300-17,0,0);
+	Player player = new Player(panW/2+17,panH/2-17,0,0);
 	ArrayList<Zombie> zombieList = new ArrayList<>();
 	ArrayList<Bullet> bulletList = new ArrayList<>();
 	ArrayList<Obstacle> obstacleList = new ArrayList<>();
@@ -623,7 +623,9 @@ public class Game {
 		double angle = Math.atan2(deltaY, deltaX);
 
 		//bullet angle 
-		Bullet b = new Bullet(player.x + (player.width/2)-4,player.y + (player.height/2)-4,0,0);
+		//Bullet b = new Bullet(player.x + (player.width/2)-4, player.y + (player.height/2)-4,0,0);
+		Bullet b = new Bullet(player.x, player.y + (player.height/2)-4,0,0);
+
 
 		//bullet velocity
 		if (x > player.x) b.speedX = (double)(5*Math.cos(angle));
@@ -766,6 +768,8 @@ public class Game {
 			}
 
 			if (gameIsRunning) {
+				int w = window.getWidth(); 
+				int h = window.getHeight();
 				//draw ground tiles 
 				g2.setColor(groundClr);
 				g2.fillRect((int)border.x, (int)border.y, (int)border.width, (int)border.height);
@@ -833,8 +837,8 @@ public class Game {
 				//score and round displays
 				g2.setFont(scoreFont);
 				g2.setColor(Color.white);
-				g2.drawString("Score: " + playerScore, panW-180, panH-30);
-				g2.drawString("Round: " + round, 30, panH-30);
+				g2.drawString("Score: " + playerScore, w-10, h-10);
+				g2.drawString("Round: " + round, 30, h-10);
 
 				//health display
 				if (imgHeart ==null) return;
@@ -865,11 +869,10 @@ public class Game {
 				//game over screen
 				if (!playerAlive) {
 					g2.setColor(gameoverClr);
-					g2.fillRect(0,0,panW,panH);
+					g2.fillRect(0,0, w+300, h+300);
 					g2.setFont(gameoverFont);
 					g2.setColor(Color.white);
-					g2.drawString("GAME OVER", 280, panH/2 - 20);
-					
+					g2.drawString("GAME OVER", w/2-50, h/2 - 20);
 					g2.setFont(returnFont);
 
 					if (mouseX >= 300 && mouseX <= 300+205 && mouseY >= 290 && mouseY <= 290 + 30) {
@@ -878,7 +881,7 @@ public class Game {
 					else {
 						g2.setColor(Color.white);
 					}
-					g2.drawString("Return to Menu", 310, 315);
+					g2.drawString("Return to Menu", w/2-20, h/2+60);
 
 					SLEEP = 32;
 				}
@@ -1012,7 +1015,7 @@ public class Game {
 
 				double angle = Math.atan((y/x));
 
-				System.out.println(angle);
+				//System.out.println(angle);
 				
 				/* 
 				 * flipping was happening if the player was facing directly up or directly left
